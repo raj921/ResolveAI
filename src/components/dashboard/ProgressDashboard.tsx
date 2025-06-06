@@ -1,9 +1,21 @@
+
 "use client"
 
-import { BarChart, LineChart } from 'lucide-react';
+import { BarChart as BarChartIcon, LineChart as LineChartIcon } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent } from '@/components/ui/chart';
-import { Bar, CartesianGrid, XAxis, YAxis, Line, ResponsiveContainer, Tooltip as RechartsTooltip, Legend as RechartsLegend } from 'recharts';
+import { 
+  Bar, 
+  CartesianGrid, 
+  XAxis, 
+  YAxis, 
+  Line, 
+  ResponsiveContainer, 
+  Tooltip as RechartsTooltip, 
+  Legend as RechartsLegend,
+  LineChart as RechartsLineChartComponent, // Import actual LineChart from recharts
+  BarChart as RechartsBarChartComponent    // Import actual BarChart from recharts
+} from 'recharts';
 import type { ChartConfig } from '@/components/ui/chart';
 
 const moodData = [
@@ -53,14 +65,14 @@ export default function ProgressDashboard() {
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle className="font-headline">Mood & Stress Levels</CardTitle>
-            <LineChart className="h-5 w-5 text-primary" />
+            <LineChartIcon className="h-5 w-5 text-primary" />
           </div>
           <CardDescription>Your emotional well-being over the past week.</CardDescription>
         </CardHeader>
         <CardContent>
           <ChartContainer config={moodChartConfig} className="h-[250px] w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <RechartsLineChart data={moodData} margin={{ top: 5, right: 20, left: -20, bottom: 5 }}>
+              <RechartsLineChartComponent data={moodData} margin={{ top: 5, right: 20, left: -20, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" />
                 <XAxis dataKey="date" tickLine={false} axisLine={false} stroke="hsl(var(--muted-foreground))" fontSize={12} />
                 <YAxis tickLine={false} axisLine={false} stroke="hsl(var(--muted-foreground))" fontSize={12} domain={[0, 10]} />
@@ -71,7 +83,7 @@ export default function ProgressDashboard() {
                 <Line type="monotone" dataKey="moodLevel" stroke="var(--color-moodLevel)" strokeWidth={2} dot={{ r: 4, fill: 'var(--color-moodLevel)' }} activeDot={{ r: 6 }} />
                 <Line type="monotone" dataKey="stressLevel" stroke="var(--color-stressLevel)" strokeWidth={2} dot={{ r: 4, fill: 'var(--color-stressLevel)' }} activeDot={{ r: 6 }} />
                 <ChartLegend content={<ChartLegendContent />} />
-              </RechartsLineChart>
+              </RechartsLineChartComponent>
             </ResponsiveContainer>
           </ChartContainer>
         </CardContent>
@@ -81,14 +93,14 @@ export default function ProgressDashboard() {
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle className="font-headline">Activity Completion</CardTitle>
-            <BarChart className="h-5 w-5 text-accent" />
+            <BarChartIcon className="h-5 w-5 text-accent" />
           </div>
           <CardDescription>Progress on your weekly wellness activities.</CardDescription>
         </CardHeader>
         <CardContent>
           <ChartContainer config={activityChartConfig} className="h-[250px] w-full">
              <ResponsiveContainer width="100%" height="100%">
-              <RechartsBarChart data={activityData} margin={{ top: 5, right: 10, left: -20, bottom: 5 }}>
+              <RechartsBarChartComponent data={activityData} margin={{ top: 5, right: 10, left: -20, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))"/>
                 <XAxis dataKey="name" tickLine={false} axisLine={false} stroke="hsl(var(--muted-foreground))" fontSize={12} />
                 <YAxis tickLine={false} axisLine={false} stroke="hsl(var(--muted-foreground))" fontSize={12} />
@@ -99,7 +111,7 @@ export default function ProgressDashboard() {
                 <Bar dataKey="count" fill="var(--color-count)" radius={[4, 4, 0, 0]} barSize={20} />
                 <Bar dataKey="target" fill="var(--color-target)" radius={[4, 4, 0, 0]} barSize={20} />
                  <ChartLegend content={<ChartLegendContent />} />
-              </RechartsBarChart>
+              </RechartsBarChartComponent>
             </ResponsiveContainer>
           </ChartContainer>
         </CardContent>
@@ -107,7 +119,3 @@ export default function ProgressDashboard() {
     </div>
   );
 }
-
-// Re-export Recharts components to avoid type errors with shadcn/ui/chart
-const RechartsLineChart = LineChart;
-const RechartsBarChart = BarChart;
